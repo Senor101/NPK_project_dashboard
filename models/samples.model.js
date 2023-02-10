@@ -11,11 +11,11 @@ const Sample = sequelize.define('Sample', {
     type : DataTypes.INTEGER,
     allowNull : false
   },
-    LED_RED : {
+  LED_RED : {
     type : DataTypes.INTEGER,
     allowNull : false
   },
-    LED_GREEN : {
+  LED_GREEN : {
     type : DataTypes.INTEGER,
     allowNull : false
   }
