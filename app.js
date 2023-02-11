@@ -1,11 +1,12 @@
 const express = require('express');
-const sequelize = require('sequelize');
 const app = express();
+
+const {Sample,sequelize} = require('./models/samples.model');
 
 let sensorDataObj = {
   LED_BLUE : 0,
   LED_GREEN : 0,
-  LED_RED : 0,
+  LED_RED : 0
 }
 
 app.get('/data', async (req, res) => {
@@ -21,24 +22,45 @@ app.get('/data', async (req, res) => {
   } catch (err) {
     console.log(err);
   }
-  res.send("done");
+  res.status(200).json({msg:"Data stored in temporary object"});
 });
 
-// app.get('/data1', (req, res) => {
-//   let data = req.query.data;
-//   sensorDataObj.LED_BLUE = data;
-// });
+app.post('/sample',async (req,res) => {
+  try {
+  const sample = await Sample.create(sensorDataObj);
+  }
+  catch(err) {
+    console.log(err);
+  }
+  res.status(201).json({msg:"Data stored in database"})
+})
 
 // app.get('/data2', (req, res) => {
 //   let data = req.query.data;
 //   sensorDataObj.LED_RED = data;
 // });
 
-app.get('/showdata',(req,res) => {
-  console.log(sensorDataObj);
-  res.json(sensorDataObj);
+app.get('/showdata',async (req,res) => {
+  try{
+    const samples = await Sample.findAll();
+    console.log(samples);
+    res.status(200).json(samples);
+  } catch(err) {
+    console.log(err);
+  }
 })
 
-app.listen(3000, () => {
-  console.log('Server listening on port 3000');
-});
+async function startServer() {
+  try
+  {
+    await sequelize.authenticate()
+    console.log('DB connected');
+    app.listen(3000, () => {
+      console.log('Server listening on port 3000');
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+startServer();

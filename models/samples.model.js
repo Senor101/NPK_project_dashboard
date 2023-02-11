@@ -1,12 +1,15 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('sqlite::memory:');
+const sequelize = new Sequelize('minor_project','root','',{
+      host:'localhost',
+      dialect : 'mysql'
+});
 
 const Sample = sequelize.define('Sample', {
   id: {
     type : DataTypes.INTEGER,
     autoIncrement : true,
     primaryKey : true
-  }
+  },
   LED_BLUE : {
     type : DataTypes.INTEGER,
     allowNull : false
@@ -21,4 +24,6 @@ const Sample = sequelize.define('Sample', {
   }
 })
 
-module.exports = Sample;
+Sample.sync();
+
+module.exports = {Sample,sequelize};
