@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home</title>
+</head>
+
+<body>
+  <section>
+    <div>
+      <form action="/sample" method="POST">
+        <ul>
+          <li>LED_RED: <%= sensorobj.LED_RED %></li>
+          <li>LED_BLUE: <%= sensorobj.LED_BLUE %></li>
+          <li>LED_GREEN: <%= sensorobj.LED_GREEN %></li>
+        </ul>
+        <button type="submit">Add to database</button>
+      </form>
+    </div>
+  </section>
+</body>
+</html>

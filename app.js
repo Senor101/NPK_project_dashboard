@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 
 const {Sample,sequelize} = require('./models/samples.model');
 
@@ -8,6 +9,14 @@ let sensorDataObj = {
   LED_GREEN : 0,
   LED_RED : 0
 }
+
+
+// implementing ejs templating engine
+app.set('view engine','ejs');
+app.use(bodyParser.urlencoded({extended: false}));
+
+
+//routes
 
 app.get('/data', async (req, res) => {
   try
@@ -22,16 +31,26 @@ app.get('/data', async (req, res) => {
   } catch (err) {
     console.log(err);
   }
-  res.status(200).json({msg:"Data stored in temporary object"});
+  res.redirect('/sample');
+  // res.status(200).json({msg:"Temp object created"});
 });
+
+
+app.get('/sample',async (req,res) => {
+  res.render('\index',{
+    sensorobj : sensorDataObj
+  })
+})
 
 app.post('/sample',async (req,res) => {
   try {
   const sample = await Sample.create(sensorDataObj);
+  console.log(sample);
   }
   catch(err) {
     console.log(err);
   }
+
   res.status(201).json({msg:"Data stored in database"})
 })
 
