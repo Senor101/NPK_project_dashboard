@@ -4,20 +4,72 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Home</title>
+  <link rel="stylesheet" href="/main.css">
+  <link rel="stylesheet" href="/index.css">
 </head>
 
 <body>
+    <div class="navbar">
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/sample">Samples</a></li>
+    </ul>
+  </div>
   <section>
-    <div>
-      <form action="/sample" method="POST">
-        <ul>
-          <li>LED_RED: <%= sensorobj.LED_RED %></li>
-          <li>LED_BLUE: <%= sensorobj.LED_BLUE %></li>
-          <li>LED_GREEN: <%= sensorobj.LED_GREEN %></li>
-        </ul>
-        <button type="submit">Add to database</button>
-      </form>
+    <h3 class="centered">The standard form to compare other samples with</h3>
+    <div class = "chart">
+      <canvas id="myChart">
     </div>
   </section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['LED_RED','LED_BLUE','LED_GREEN'],
+      datasets: [{
+        label: 'Standard Data',
+        backgroundColor : '#e29578',
+        data: [<%= sensorObj.LED_RED %>, <%= sensorObj.LED_BLUE %>, <%= sensorObj.LED_GREEN %>],
+        borderWidth: 1
+      }]
+    },
+      options: {
+    responsive: true,
+    maintainAspectRatio : false,
+    layout: {
+      padding: 10,
+    },
+    legend: {
+      position: 'right',
+    },
+    plugins :{
+      title: {
+        display: true,
+        text: 'Standard NPK'
+      },
+    },
+    scales : {
+      y : {
+        title : {
+          display : true,
+          text : 'Analog values'
+        }
+      },
+      x : {
+        title : {
+          display : true,
+          text : 'LEDs'
+        }
+      }
+    }
+  }
+  });
+</script>
+
 </body>
 </html>

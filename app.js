@@ -1,8 +1,15 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const path = require('path');
 
+// importing sequelize model and database connection
 const {Sample,sequelize} = require('./models/samples.model');
+
+// importing routes
+const indexRouter = require('./routes/index.router');
+const sampleRouter = require('./routes/sample.router');
+
 
 let sensorDataObj = {
   LED_BLUE : 0,
@@ -14,10 +21,10 @@ let sensorDataObj = {
 // implementing ejs templating engine
 app.set('view engine','ejs');
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(express.static(path.join(__dirname,'public')));
 
 
-//routes
-
+// handling get request from nodemcu and getting data
 app.get('/data', async (req, res) => {
   try
   {
@@ -27,47 +34,18 @@ app.get('/data', async (req, res) => {
     sensorDataObj.LED_BLUE = data2;
     let data3 = await req.query.data3;
     sensorDataObj.LED_RED = data3;
-    console.log(data1 + data2 + data3);
+    const sample = await Sample.create(sensorDataObj);
+    console.log(sample);
+    console.log("Data stored in Database");
   } catch (err) {
     console.log(err);
   }
-  res.redirect('/sample');
-  // res.status(200).json({msg:"Temp object created"});
 });
 
+app.use('/',indexRouter);
+app.use('/sample',sampleRouter);
 
-app.get('/sample',async (req,res) => {
-  res.render('\index',{
-    sensorobj : sensorDataObj
-  })
-})
-
-app.post('/sample',async (req,res) => {
-  try {
-  const sample = await Sample.create(sensorDataObj);
-  console.log(sample);
-  }
-  catch(err) {
-    console.log(err);
-  }
-
-  res.status(201).json({msg:"Data stored in database"})
-})
-
-// app.get('/data2', (req, res) => {
-//   let data = req.query.data;
-//   sensorDataObj.LED_RED = data;
-// });
-
-app.get('/showdata',async (req,res) => {
-  try{
-    const samples = await Sample.findAll();
-    console.log(samples);
-    res.status(200).json(samples);
-  } catch(err) {
-    console.log(err);
-  }
-})
+// routes
 
 async function startServer() {
   try

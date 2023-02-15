@@ -2,8 +2,10 @@ const express = require('express');
 
 const router = express.Router();
 
-router.get('/sample',getAllSample);
+const sampleController = require('./sample.controller.js')
 
-router.get('/sample/:id',getSample);
+router.get('/',sampleController.getAllSample);
+
+router.get('/:id',sampleController.getSample);
 
 module.exports = router;

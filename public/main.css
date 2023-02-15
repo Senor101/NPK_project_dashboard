@@ -1,0 +1,12 @@
+body {
+  margin : 0;
+  padding : 0;
+  background-color: #edf6f9;
+  font-family: arial;
+}
+
+.centered {
+  margin: auto;
+  width: 50%;
+  padding: 20px;
+}
