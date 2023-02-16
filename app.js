@@ -9,6 +9,7 @@ const {Sample,sequelize} = require('./models/samples.model');
 // importing routes
 const indexRouter = require('./routes/index.router');
 const sampleRouter = require('./routes/sample.router');
+const indexController = require('./routes/index.controller')
 
 
 let sensorDataObj = {
@@ -44,7 +45,7 @@ app.get('/data', async (req, res) => {
 
 app.use('/',indexRouter);
 app.use('/sample',sampleRouter);
-
+app.use(indexController.get404);
 // routes
 
 async function startServer() {

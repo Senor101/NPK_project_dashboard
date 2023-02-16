@@ -1,9 +1,14 @@
+const standardData = require('../utils/standard');
+
 exports.getHome = (req, res, next) => {
   res.status(200).render('index',{
-    sensorObj : {
-      LED_RED : 965,
-      LED_BLUE : 1018,
-      LED_GREEN : 1023
-    }
+    title : "Home",
+    sensorObj : standardData
   })
 }
+
+exports.get404 = (req, res, next) => {
+  res.status(404).render('404',{
+    title: 'Page not found'
+  })
+  }

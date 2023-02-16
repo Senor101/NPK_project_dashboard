@@ -1,27 +1,39 @@
 <%- include('includes/head.ejs') %>
 <%- include('includes/navbar.ejs') %>
-  <section>
-    <h3 class="centered">The standard form to compare other samples with</h3>
-    <div class = "chart">
-      <canvas id="myChart">
-    </div>
-  </section>
+<section class="centered">
+  <h1>Sample<%= sample.id %></h1>
+  <ul>
+    <li>LED_RED:<%= sample.LED_RED %></li>
+    <li>LED_BLUE:<%= sample.LED_BLUE %></li>
+    <li>LED_GREEN:<%= sample.LED_GREEN %></li>
+  </ul>
+  <div class = "chart">
+    <canvas id="myChart">
+  </div>
+</section>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
   const ctx = document.getElementById('myChart');
-
   new Chart(ctx, {
-    type: 'bar',
     data: {
       labels: ['LED_RED','LED_BLUE','LED_GREEN'],
       datasets: [{
-        label: 'Standard Data',
+        type : 'bar',
+        label: 'Sample Data',
         backgroundColor : '#e29578',
-        data: [<%= sensorObj.LED_RED %>, <%= sensorObj.LED_BLUE %>, <%= sensorObj.LED_GREEN %>],
+        data: [<%= sample.LED_RED %>, <%= sample.LED_BLUE %>, <%= sample.LED_GREEN %>],
         borderWidth: 1
-      }]
+      },{
+        type :'bar',
+        label: 'Standard Data',
+        backgroundColor : '#006d77',
+        borderColor : '#006d77',
+        data: [<%= standard.LED_RED %>, <%= standard.LED_BLUE %>, <%= standard.LED_GREEN %>],
+        borderWidth: 5
+      }
+      ]
     },
       options: {
     responsive: true,
@@ -55,6 +67,5 @@
   }
   });
 </script>
-
 </body>
 </html>
