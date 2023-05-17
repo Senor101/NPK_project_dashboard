@@ -2,17 +2,20 @@
 
 const char* ssid = "Germany";
 const char* password = "lordbro@555";
-const char* server = "192.168.16.101";
+const char* server = "192.168.16.107";
 
 void setup() {
   Serial.begin(115200);
+    pinMode(16,OUTPUT);
+  pinMode(5,OUTPUT);
+  pinMode(4, OUTPUT);
   WiFi.begin(ssid, password);
 
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
     Serial.println("Connecting to WiFi...");
   }
-  
+
   Serial.println("Connected to WiFi");
 }
   bool datasent = false;
@@ -29,27 +32,32 @@ void loop() {
     Serial.println("Connection Succedded");
   }
   
-  int counter = 0;
-  float data1,data2,data3;
 
+  float data1,data2,data3;
+  
+  if(!datasent) {
+  int counter = 0;
   while(counter<3) {
-    if(!datasent) {
     delay(10000);      
     if(counter == 0) {
+      digitalWrite(4,LOW);
+      digitalWrite(16,HIGH);
       data1 = data;
     } else if(counter == 1) {
+      digitalWrite(16,LOW);
+      digitalWrite(5,HIGH);
       data2 = data;
     }
     else if(counter == 2) {
+      digitalWrite(5,LOW);
+      digitalWrite(4,HIGH);
       data3 = data;
-      datasent = true;
-      exit(0);
     }  
     counter++;  
-  }}
+        // Send the data as a GET request
 
-  // Send the data as a GET request
-  client.print("GET /data");
+  }
+    client.print("GET /data");
   client.print("?data1=");
   client.print(data1);
   client.print("&data2=");
@@ -60,6 +68,8 @@ void loop() {
   client.println("Host: 192.168.16.1:3000");
   client.println("Connection: close");
   client.println();
+  datasent = true;
+  }
 
   // Read the response from the server
   while (client.available()) {
@@ -68,3 +78,4 @@ void loop() {
 
   client.stop();
 }
+
