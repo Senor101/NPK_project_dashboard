@@ -29,6 +29,7 @@ app.use(express.static(path.join(__dirname,'public')));
 app.get('/data', async (req, res) => {
   try
   {
+    console.log('get data')
     let data1 = await req.query.data1;
     sensorDataObj.LED_GREEN = data1;
     let data2 = await req.query.data2;

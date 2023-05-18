@@ -9,7 +9,7 @@ exports.getAllSample = async (req, res, next) => {
       title : 'Samples'
     });
   } catch(err) {
-    console.log(err);
+    console.log(err); 
   }
 }
 
@@ -25,5 +25,20 @@ exports.getSample = async (req, res, next) => {
   } catch (err) {
     console.log(err);
   }
+}
 
+exports.deleteSample = async(req,res,next) => {
+  try{
+    const sampleId = req.body.id;
+    console.log(sampleId);
+    await Sample.destroy({
+      where:{
+        id:sampleId
+      }
+    })
+    res.redirect('/sample');
+  }
+  catch(err) {
+    console.log(err);
+  }
 }

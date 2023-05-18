@@ -5,11 +5,15 @@
     <div class ="samples">
       <h2>Sample<%= sample.id %></h2>
       <ul>
-        <li>LED_RED:<%= sample.LED_RED %></li>
-        <li>LED_BLUE:<%= sample.LED_BLUE %></li>
-        <li>LED_GREEN:<%= sample.LED_GREEN %></li>
+        <li>LED_RED:<%= sample.LED_RED %>(Potassium)</li>
+        <li>LED_BLUE:<%= sample.LED_BLUE %>(Nitrogen)</li>
+        <li>LED_GREEN:<%= sample.LED_GREEN %>(Phosphorus)</li>
       </ul>
       <button><a href="/sample/<%= sample.id %>">Details</a></button>
+      <form method="POST" action="/sample/<%= sample.id %>" >
+        <input value="<%= sample.id %>" type="hidden" name="id">
+        <button type="submit"><a>Delete</a></button>
+      </form>
     </div>
     <% }) %>
   <% } else { %>
