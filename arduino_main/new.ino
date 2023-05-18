@@ -78,7 +78,3 @@ void loop() {
 
   client.stop();
 }
-
-
-
-
