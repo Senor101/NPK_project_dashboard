@@ -3,12 +3,46 @@
 <section class="centered">
   <h1>Sample<%= sample.id %></h1>
   <ul>
-    <li>LED_RED:<%= sample.LED_RED %></li>
-    <li>LED_BLUE:<%= sample.LED_BLUE %></li>
-    <li>LED_GREEN:<%= sample.LED_GREEN %></li>
+    <li>LED_RED:<%= sample.LED_RED %>(Potassium)</li>
+        <li>LED_BLUE:<%= sample.LED_BLUE %>(Nitrogen)</li>
+        <li>LED_GREEN:<%= sample.LED_GREEN %>(Phosphorus)</li>
   </ul>
+
   <div class = "chart">
     <canvas id="myChart">
+  </div>
+  <p>NOTE: A sample value will have more contents of the respective fertilizer if the value is less than that of the standard.
+    <div class="conclusion">
+    <h3>Conclusion</h3>
+    <ul>
+      <li> Potassium :
+        <% if((standard.LED_RED-50) < sample.LED_RED &&  sample.LED_RED < (standard.LED_RED+50)) {%>
+        MEDIUM
+        <% } else if (sample.LED_RED < standard.LED_RED) { %>
+        HIGH
+        <% } else  { %>
+        LOW
+        <% } %>
+      </li>
+          <li> Nitrogen :
+        <% if((standard.LED_BLUE-50) < sample.LED_BLUE &&  sample.LED_BLUE < (standard.LED_BLUE+50)) {%>
+        MEDIUM
+        <% } else if (sample.LED_BLUE < (standard.LED_BLUE+50)) { %>
+        HIGH
+        <% } else { %>
+        LOW
+        <% } %>
+      </li>
+            <li> Phosphorus :
+        <% if((standard.LED_GREEN-50) < sample.LED_GREEN &&  sample.LED_GREEN < (standard.LED_GREEN+50)) {%>
+        MEDIUM
+        <% } else if (sample.LED_GREEN < (standard.LED_GREEN)) { %>
+        HIGH
+        <% } else { %>
+        LOW
+        <% } %>
+      </li>
+    </ul>
   </div>
 </section>
 
@@ -18,7 +52,7 @@
   const ctx = document.getElementById('myChart');
   new Chart(ctx, {
     data: {
-      labels: ['LED_RED','LED_BLUE','LED_GREEN'],
+      labels: ['LED_RED(Potassium)','LED_BLUE(Nitrogen)','LED_GREEN(Phosphorous)'],
       datasets: [{
         type : 'bar',
         label: 'Sample Data',
@@ -54,13 +88,13 @@
       y : {
         title : {
           display : true,
-          text : 'Analog values'
+          text : 'Intensities'
         }
       },
       x : {
         title : {
           display : true,
-          text : 'LEDs'
+          text : 'LEDS'
         }
       }
     }
